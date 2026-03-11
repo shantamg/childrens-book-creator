@@ -1,0 +1,21 @@
+# Book projects (each can be its own repo)
+/projects/
+
+# Dependencies
+node_modules/
+.next/
+
+# Python
+*.pyc
+__pycache__/
+venv/
+.venv/
+
+# OS
+.DS_Store
+
+# Personal config (answers to questionnaire)
+setup/config.yaml
+
+# Web tool local config
+web/.env.local
