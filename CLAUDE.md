@@ -31,7 +31,10 @@ Look in `projects/` for available projects. If only one exists, use it.
 
 ```
 stages/          Stage contracts (how each part of book creation works)
-_config/         Print specs, tools, workflow reference
+_config/         Print specs, format catalog, paper stocks, tools
+  formats.yaml   All 19 OnPress trim sizes with dimensions, pixels, aspect ratios
+  paper-stocks.yaml  Paper options with PPI values for spine calculation
+  print-specs.md     Universal specs, formulas, quick reference
 scripts/         Python scripts for rendering and export
 projects/        Book projects (one folder per book)
 setup/           One-time onboarding questionnaire
@@ -55,7 +58,7 @@ Read `CONTEXT.md` for task routing. Match the user's request to a stage:
 Each project in `projects/{slug}/` contains:
 
 ```
-book.yaml              Project metadata, specs, style
+book.yaml              Project metadata, format, specs, style (format key references _config/formats.yaml)
 story/
   page-NN.md           Per-page creative content (YAML frontmatter + markdown)
 characters/
@@ -102,7 +105,8 @@ Each character has a folder in `characters/{name}/` with:
 
 Use `nano-banana` CLI for generating page illustrations and character model sheets.
 - Reference character model sheets with `-r` for consistency
-- Use `-s 1K -a 1:1` for standard square pages matching 8.5x8.5" trim
+- Look up the project's format in `_config/formats.yaml` for the correct `nanoBananaAspect` ratio — use it with `-a`
+- Use `-s 1K` for iteration, upscale to 4K after approval
 - Rename files before passing to nano-banana (it can't handle spaces in filenames via `-r`)
 - ALWAYS include in every image prompt: "Do not include any text, words, letters, or numbers in the image — text will be added later as an overlay."
 

@@ -1,0 +1,273 @@
+# OnPress Book Printing — Trim Size Formats
+# Source: https://www.onpressbookprinting.com/resources/templates
+#
+# Each format includes:
+#   trim:       Final visible page size (width × height in inches)
+#   bleed:      0.125" for interiors/softcovers, 0.625" for hardcovers
+#   document:   Trim + bleed on all sides (what the PDF page size should be)
+#   pixels:     Document size at 300 DPI (what image files should be)
+#   nanoBananaAspect: Closest supported aspect ratio for image generation
+#   orientation: portrait | landscape | square
+#   category:    Which section of the OnPress templates page
+#   description: From OnPress — common uses for this format
+
+# --- Universal specs (apply to all formats) ---
+universal:
+  bleed:
+    interior: 0.125      # inches, all sides
+    softcover: 0.125     # inches, all sides
+    hardcover: 0.625     # inches, from canvas edge to trim
+    dustJacket: 0.125    # inches, all sides
+  resolution: 300        # DPI
+  colorMode: CMYK
+  iccProfile: GRACoL2006_Coated1v2
+  outputIntent: PDF/X-1a
+  safetyMargins:
+    outer: 0.44          # inches, top/bottom/outside edge (from document edge)
+    gutter: 1.0          # inches, binding side (from document edge)
+    recommended: 0.875   # inches, OnPress recommended minimum for most trim sizes
+  pageCount:
+    mustBeEven: true
+    padToMultipleOf: 4   # book signature requirement
+    minForSpineText: 50  # softcover — spine < 0.1" below this
+
+# --- Formats ---
+formats:
+
+  # ============ PORTRAIT ============
+
+  pocket-book:
+    name: Pocket Book
+    trim: { width: 4.25, height: 6.87 }
+    document: { width: 4.5, height: 7.12 }
+    pixels: { width: 1350, height: 2136 }
+    nanoBananaAspect: "2:3"
+    orientation: portrait
+    category: portrait
+    description: >
+      Common choice for fiction novels. Compact, easily portable.
+      Popular with 60lb natural paper, black-and-white text, perfect binding.
+
+  novella:
+    name: Novella
+    trim: { width: 5.0, height: 8.0 }
+    document: { width: 5.25, height: 8.25 }
+    pixels: { width: 1575, height: 2475 }
+    nanoBananaAspect: "2:3"
+    orientation: portrait
+    category: portrait
+    description: >
+      Common choice for short-form fiction. Compact, versatile option
+      for a wide range of book genres.
+
+  a5:
+    name: A5
+    trim: { width: 5.8, height: 8.3 }
+    metric: { width: 148, height: 210, unit: mm }
+    document: { width: 6.05, height: 8.55 }
+    pixels: { width: 1815, height: 2565 }
+    nanoBananaAspect: "2:3"
+    orientation: portrait
+    category: portrait
+    description: >
+      Widely used international standard, similar to U.S. Digest.
+      Works well for fiction, nonfiction, and poetry.
+
+  digest:
+    name: Digest
+    trim: { width: 5.5, height: 8.5 }
+    document: { width: 5.75, height: 8.75 }
+    pixels: { width: 1725, height: 2625 }
+    nanoBananaAspect: "2:3"
+    orientation: portrait
+    category: portrait
+    description: >
+      Works well for fiction, nonfiction, and poetry.
+      Ideal for perfect binding, complemented by any paper stock.
+
+  us-trade:
+    name: U.S. Trade
+    trim: { width: 6.0, height: 9.0 }
+    document: { width: 6.25, height: 9.25 }
+    pixels: { width: 1875, height: 2775 }
+    nanoBananaAspect: "2:3"
+    orientation: portrait
+    category: portrait
+    description: >
+      Popular selection for sporting books and other nonfiction titles.
+
+  uk-royal:
+    name: U.K. Royal
+    trim: { width: 6.14, height: 9.21 }
+    metric: { width: 156, height: 234, unit: mm }
+    document: { width: 6.39, height: 9.46 }
+    pixels: { width: 1917, height: 2838 }
+    nanoBananaAspect: "2:3"
+    orientation: portrait
+    category: portrait
+    description: >
+      Similar to U.S. Trade. Well suited for fiction and nonfiction
+      in both hardcover and softcover.
+
+  medium-trade:
+    name: Medium Trade
+    trim: { width: 7.0, height: 9.0 }
+    document: { width: 7.25, height: 9.25 }
+    pixels: { width: 2175, height: 2775 }
+    nanoBananaAspect: "3:4"
+    orientation: portrait
+    category: portrait
+    description: >
+      Ideal for nonfiction — business, biography, self-help.
+      Commonly printed in hardcover, works well with all options.
+
+  executive:
+    name: Executive
+    trim: { width: 7.0, height: 10.0 }
+    document: { width: 7.25, height: 10.25 }
+    pixels: { width: 2175, height: 3075 }
+    nanoBananaAspect: "2:3"
+    orientation: portrait
+    category: portrait
+    description: >
+      Works well for journals, textbooks, art books, cookbooks,
+      and styles that thrive on extra space.
+
+  comic-book:
+    name: Comic Book
+    trim: { width: 6.625, height: 10.25 }
+    document: { width: 6.875, height: 10.5 }
+    pixels: { width: 2063, height: 3150 }
+    nanoBananaAspect: "2:3"
+    orientation: portrait
+    category: portrait
+    description: >
+      Classic compact size for comic books, magazines, and children's books.
+      Works with low and high page counts with color printing.
+
+  portrait:
+    name: Portrait
+    trim: { width: 8.0, height: 10.0 }
+    document: { width: 8.25, height: 10.25 }
+    pixels: { width: 2475, height: 3075 }
+    nanoBananaAspect: "4:5"
+    orientation: portrait
+    category: portrait
+    description: >
+      Ideal for family history books, journals, children's books,
+      workbooks, and wedding books.
+
+  us-letter:
+    name: U.S. Letter
+    trim: { width: 8.5, height: 11.0 }
+    document: { width: 8.75, height: 11.25 }
+    pixels: { width: 2625, height: 3375 }
+    nanoBananaAspect: "3:4"
+    orientation: portrait
+    category: portrait
+    description: >
+      Excellent for textbooks, yearbooks, photography books, children's books,
+      training manuals, cookbooks, and religious publications.
+      Works with all binding styles and paper stocks.
+
+  a4:
+    name: A4
+    trim: { width: 8.3, height: 11.7 }
+    metric: { width: 210, height: 297, unit: mm }
+    document: { width: 8.55, height: 11.95 }
+    pixels: { width: 2565, height: 3585 }
+    nanoBananaAspect: "2:3"
+    orientation: portrait
+    category: portrait
+    description: >
+      Widely used international standard, similar to U.S. Letter.
+      Ideal for textbooks, journals, training manuals, cookbooks.
+      Works with all binding styles and paper stocks.
+
+  large-portrait:
+    name: Large Portrait
+    trim: { width: 9.0, height: 12.0 }
+    document: { width: 9.25, height: 12.25 }
+    pixels: { width: 2775, height: 3675 }
+    nanoBananaAspect: "3:4"
+    orientation: portrait
+    category: portrait
+    description: >
+      Works well for tabletop art and photo books or magazines.
+      Popular choice for yearbooks.
+
+  # ============ SQUARE ============
+
+  small-square:
+    name: Small Square
+    trim: { width: 7.5, height: 7.5 }
+    document: { width: 7.75, height: 7.75 }
+    pixels: { width: 2325, height: 2325 }
+    nanoBananaAspect: "1:1"
+    orientation: square
+    category: square
+    description: >
+      Popular for fiction, nonfiction, photography books, children's books,
+      and cookbooks. Pairs well with all paper stocks.
+
+  square:
+    name: Square
+    trim: { width: 8.5, height: 8.5 }
+    document: { width: 8.75, height: 8.75 }
+    pixels: { width: 2625, height: 2625 }
+    nanoBananaAspect: "1:1"
+    orientation: square
+    category: square
+    description: >
+      Works well for large-format fiction, nonfiction, photography books,
+      children's books, and cookbooks. Pairs well with all paper stocks.
+
+  large-square:
+    name: Large Square
+    trim: { width: 10.0, height: 10.0 }
+    document: { width: 10.25, height: 10.25 }
+    pixels: { width: 3075, height: 3075 }
+    nanoBananaAspect: "1:1"
+    orientation: square
+    category: square
+    description: >
+      Perfect for coffee table art and photography books,
+      large-format children's books and cookbooks.
+
+  # ============ LANDSCAPE ============
+
+  landscape:
+    name: Landscape
+    trim: { width: 9.0, height: 7.0 }
+    document: { width: 9.25, height: 7.25 }
+    pixels: { width: 2775, height: 2175 }
+    nanoBananaAspect: "4:3"
+    orientation: landscape
+    category: landscape
+    description: >
+      Beautiful for art, photography, and children's books.
+      Popular with case-bound binding and color on gloss paper.
+
+  us-letter-landscape:
+    name: U.S. Letter Landscape
+    trim: { width: 11.0, height: 8.5 }
+    document: { width: 11.25, height: 8.75 }
+    pixels: { width: 3375, height: 2625 }
+    nanoBananaAspect: "4:3"
+    orientation: landscape
+    category: landscape
+    description: >
+      Beautiful for art, photography, and children's books.
+      Popular with case-bound binding and color on gloss paper.
+
+  large-landscape:
+    name: Large Landscape
+    trim: { width: 12.0, height: 9.0 }
+    document: { width: 12.25, height: 9.25 }
+    pixels: { width: 3675, height: 2775 }
+    nanoBananaAspect: "4:3"
+    orientation: landscape
+    category: landscape
+    description: >
+      Beautiful for art, photography, and children's books.
+      Great fit for color printing on gloss paper.

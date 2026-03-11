@@ -50,7 +50,8 @@ On first use, check if `setup/config.yaml` exists.
 If the user wants to create a new book:
 
 1. Read defaults from `setup/config.yaml`
-2. Ask for: title, art style (default from config), mood/tone (default from config)
-3. Create `projects/{slug}/` with `book.yaml`
-4. Create `projects/{slug}/story/`, `characters/`, `pages/`, `cover/`, `output/`
-5. Route to stage 01-story to begin developing the story
+2. Read format options from `_config/formats.yaml`
+3. Ask for: title, format/trim size (default from config, show options), art style (default from config), mood/tone (default from config), paper stock (default: 80lb white for children's books)
+4. Create `projects/{slug}/` with `book.yaml` (include format key and resolved specs)
+5. Create `projects/{slug}/story/`, `characters/`, `pages/`, `cover/`, `output/`
+6. Route to stage 01-story to begin developing the story

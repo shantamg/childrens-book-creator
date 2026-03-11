@@ -1,0 +1,93 @@
+# OnPress Book Printing — Paper Stock Options
+# Source: OnPress quoter + industry standard values
+#
+# PPI = pages per inch (used for spine width calculation)
+# Spine width formula: page_count / PPI
+#
+# Note: OnPress generates exact spine widths in their cover templates
+# based on your specific page count and paper selection. These PPI
+# values are industry-standard approximations for planning purposes.
+
+stocks:
+
+  white-50lb:
+    name: 50lb White
+    weight: 50
+    color: white
+    finish: uncoated
+    ppiApprox: 440
+    thicknessPerPage: 0.00227   # inches (1/440)
+    notes: >
+      Thinnest option. Best for conserving spine width.
+      Common for novels with 600+ pages.
+
+  white-60lb:
+    name: 60lb White
+    weight: 60
+    color: white
+    finish: uncoated
+    ppiApprox: 388
+    thicknessPerPage: 0.00258   # inches (1/388)
+    notes: >
+      The "sweet spot" for most books. Durable and flexible,
+      comfortable to hold for long periods.
+
+  natural-60lb:
+    name: 60lb Natural
+    weight: 60
+    color: cream
+    finish: uncoated
+    ppiApprox: 380
+    thicknessPerPage: 0.00263   # inches (1/380)
+    notes: >
+      Cream-colored paper with a warm, historic feel.
+      Popular for fiction and literary works.
+
+  white-70lb:
+    name: 70lb White
+    weight: 70
+    color: white
+    finish: uncoated
+    ppiApprox: 360
+    thicknessPerPage: 0.00278   # inches (1/360)
+    notes: >
+      Slightly thicker than standard. Good opacity for
+      books with color images.
+
+  white-80lb:
+    name: 80lb White
+    weight: 80
+    color: white
+    finish: uncoated
+    ppiApprox: 300
+    thicknessPerPage: 0.00333   # inches (1/300)
+    notes: >
+      Thickest uncoated option. Maximum durability and
+      crease-resistance for image-heavy books.
+
+  gloss-80lb:
+    name: 80lb Gloss
+    weight: 80
+    color: white
+    finish: gloss
+    ppiApprox: 320
+    thicknessPerPage: 0.00313   # inches (1/320)
+    notes: >
+      Reflective coating adds shine. Excellent for
+      photography books and color-heavy content.
+
+  gloss-100lb:
+    name: 100lb Gloss
+    weight: 100
+    color: white
+    finish: gloss
+    ppiApprox: 230
+    thicknessPerPage: 0.00435   # inches (1/230)
+    notes: >
+      Premium heavy gloss. Best for coffee table books,
+      art books, and photography collections.
+
+# Children's book recommendation:
+# For illustrated children's books, 80lb white or 80lb gloss
+# are common choices — they handle full-color art well and
+# feel substantial in small hands.
