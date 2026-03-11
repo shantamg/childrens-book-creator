@@ -17,5 +17,8 @@ venv/
 # Personal config (answers to questionnaire)
 setup/config.yaml
 
+# API keys
+.env
+
 # Web tool local config
 web/.env.local

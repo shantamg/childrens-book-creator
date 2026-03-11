@@ -1,39 +1,44 @@
 # Setup Questionnaire
 
 One-time configuration for the book creation workspace.
-Answer all questions in one pass. These configure the system, not any specific book.
+If `setup/config.yaml` already exists, setup is complete — skip the questionnaire.
 
 ## Questions
 
-1. **Your name** (as it appears on books as author)
-   Example: "Shantam"
+Ask each question one at a time using AskUserQuestion. Show the default value so the user can just press Enter to accept it. If the user's answer is empty or just confirms the default, use the default.
 
-2. **Default art style** (can be overridden per book)
-   Example: "Whimsical watercolor with soft edges"
+### 1. Author name
+- Question: "What name should appear on your books as author?"
+- No default — must be provided
 
-3. **Default mood/tone** (can be overridden per book)
-   Example: "Warm, dreamy, magical"
+### 2. Default art style
+- Question: "Default art style for illustrations? (can override per book)"
+- Default: "Whimsical watercolor with soft edges"
 
-4. **Default font** for story text
-   Example: "Overlock" (Google Font)
+### 3. Default mood/tone
+- Question: "Default mood/tone? (can override per book)"
+- Default: "Warm, dreamy, magical"
 
-5. **Default trim size** (most common for your books)
-   Example: "8.5x8.5" (square hardcover)
+### 4. Default font
+- Question: "Default font for story text? (Google Font name)"
+- Default: "Overlock"
 
-6. **Where do your book projects live on disk?**
-   Default: "projects/" (relative to this workspace)
+### 5. Default trim size
+- Question: "Default trim size?"
+- Default: "8.5x8.5" (square hardcover)
 
-7. **Gemini API key location** (for nb CLI)
-   Example: "~/.openclaw/openclaw.json" or environment variable
+### 6. Web preview port
+- Question: "Port for the web preview tool? (pick another if 3000 is taken)"
+- Default: 3000
 
-8. **Do you want auto-git-commit when saving changes?** (yes/no)
-   Default: yes
+### 7. Gemini API key (conditional)
+Before asking, check if `GEMINI_API_KEY` is already set in the environment or in `.env` at the workspace root. If it's already available, skip this question entirely. If not:
+- Question: "Gemini API key for image generation (get one at https://aistudio.google.com/apikey):"
+- No default — must be provided
 
-9. **What port should the web preview tool use?**
-   This controls the address you'll open in your browser (e.g. localhost:3000). The default of 3000 is fine if you have no preference — just press Enter. If another app already uses that port, pick any number between 3001 and 9999.
+## After collecting answers
 
-## Instructions for the agent
-
-Ask these questions conversationally. Write answers to `setup/config.yaml`.
-After writing `config.yaml`, also write the port to `web/.env.local` as `PORT=<number>` (preserve any other variables already in that file).
-If `config.yaml` already exists, setup is complete — skip the questionnaire.
+1. Write answers to `setup/config.yaml` with these fields:
+   - `author`, `defaultArtStyle`, `defaultMood`, `defaultFont`, `defaultTrim`, `port`
+2. Write the port to `web/.env.local` as `PORT=<number>` (preserve any other variables already in that file)
+3. If a Gemini API key was collected, write it to `.env` at the workspace root as `GEMINI_API_KEY=<key>`
