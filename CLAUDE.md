@@ -44,7 +44,7 @@ Read `CONTEXT.md` for task routing. Match the user's request to a stage:
 | Task | Stage |
 |------|-------|
 | Story, plot, pages, text content | stages/01-story/ |
-| Characters, model sheets, references | stages/02-characters/ |
+| Characters, scenes, locations, model/reference sheets | stages/02-characters/ |
 | Image generation, variations, approvals | stages/03-imagery/ |
 | Text positioning, fonts, layout | stages/04-text-layout/ |
 | Cover design and generation | stages/05-cover/ |

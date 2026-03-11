@@ -1,6 +1,6 @@
-# Stage 02 — Character Design
+# Stage 02 — Characters & Reference Sheets
 
-Create and manage characters: descriptions, reference images, and model sheets.
+Create and manage characters, scenes, and locations that need consistent reference across the book.
 
 ## Inputs
 
@@ -35,6 +35,15 @@ Model sheets provide consistent character reference for image generation.
 ```bash
 nano-banana "Character model sheet, [description], front view, 3/4 view, side view, white background, children's book illustration style, [art-style]" -a 16:9 -s 1K
 ```
+
+### Creating a scene or location
+
+Reusable scenes and locations (e.g. a bedroom, a forest, a school) can also be created as reference sheets for consistency across pages.
+
+1. Gather from user: name, description, key visual details, mood
+2. Create `characters/{name}/character.md` with `role: location` or `role: scene`
+3. Generate a reference sheet the same way as a character model sheet
+4. Once approved, save as `approved-model-sheet.png` — use with `-r` during page generation
 
 ### Character file format
 
