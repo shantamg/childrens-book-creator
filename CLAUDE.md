@@ -19,6 +19,7 @@ If it does NOT exist, this is a first run. Do the following:
    - If you can't determine how to install a missing dependency, tell the user what's needed and let them handle it.
 3. Run the onboarding questionnaire from `setup/questionnaire.md`
 4. Write answers to `setup/config.yaml` (this file is the "setup done" marker)
+5. Write the chosen port to `web/.env.local` as `PORT=<number>` (preserve any other variables already in that file)
 
 ## Active Project
 

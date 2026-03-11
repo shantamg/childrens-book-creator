@@ -86,7 +86,7 @@ The web tool handles text positioning and book proofing.
 cd web && npm run dev
 ```
 
-Open http://localhost:3000 to see your projects. Click a project to:
+Open `http://localhost:<port>` (the port you chose during setup, default 3000) to see your projects. Click a project to:
 
 - **Spread gallery**: See pages paired as they'll appear in the printed book
 - **Page editor**: Click any page to drag and resize text overlays
