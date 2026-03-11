@@ -6,9 +6,11 @@ An AI-assisted workspace for creating illustrated children's books from story to
 
 This is a **Claude Code workspace**, not a traditional app. You open it in Claude Code and have a conversation:
 
-- "I want to start a new book about a fox who learns to fly"
-- "Generate the illustration for page 3"
-- "Move the text down and make it bigger"
+- "I want to write a book about a fox who learns to fly"
+- "Let's create the main character — here's a photo of what she should look like"
+- "Generate illustrations for pages 2 through 5"
+- "I like version 2 of page 3, approve that one"
+- "Open the web tool so I can position the text on the pages"
 - "Export the print-ready PDF"
 
 Claude reads the stage contracts in `stages/` to know how each part of the process works, and uses the scripts and web tool to get things done.
@@ -41,8 +43,11 @@ Claude Code will check for these on first run, install what it can, and tell you
 
 ## Setup
 
+Open a terminal and run:
+
 ```bash
-cd /path/to/this/repo
+git clone https://github.com/shantamg/childrens-book-creator
+cd childrens-book-creator
 claude
 ```
 
@@ -80,13 +85,7 @@ output/              Exported PDFs
 
 ## Using the Web Tool
 
-The web tool handles text positioning and book proofing.
-
-```bash
-cd web && npm run dev
-```
-
-Open `http://localhost:<port>` (the port you chose during setup, default 3000) to see your projects. Click a project to:
+When you're ready to look at your illustrations and arrange text, Claude will start the web server for you and give you a link to open in your browser. Click a project to:
 
 - **Spread gallery**: See pages paired as they'll appear in the printed book
 - **Page editor**: Click any page to drag and resize text overlays
