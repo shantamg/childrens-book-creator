@@ -51,7 +51,7 @@ cd childrens-book-creator
 claude
 ```
 
-On first run, Claude Code installs project dependencies (npm packages, Python packages, Playwright) and walks you through a short onboarding questionnaire. Your answers are saved to `setup/config.yaml`.
+Then type **"let's get started"** — Claude will install project dependencies, check for required tools, and walk you through a short onboarding questionnaire. Your answers are saved to `setup/config.yaml`.
 
 ## Project Structure
 
