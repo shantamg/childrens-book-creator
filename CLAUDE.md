@@ -4,14 +4,17 @@ ICM workspace for creating illustrated children's books with print-ready output.
 
 ## First-Run Setup
 
-On session start, check dependencies are installed. Run this silently (don't dump output to the user unless something is missing):
+If `setup/config.yaml` exists, setup is complete — skip all checks and proceed.
 
-1. `setup/config.yaml` exists → if not, run the questionnaire from `setup/questionnaire.md`
-2. `web/node_modules/.package-lock.json` exists → if not, run `cd web && npm install`
-3. `python3 -c "import yaml, frontmatter, PIL, reportlab"` succeeds → if not, run `pip install -r scripts/requirements.txt`
-4. `which gs` succeeds → if not, tell the user to `brew install ghostscript`
+If it does NOT exist, this is a first run. Do the following:
 
-Only report problems. If everything is fine, proceed silently.
+1. Install dependencies silently:
+   - `cd web && npm install`
+   - `pip install -r scripts/requirements.txt`
+   - `playwright install chromium`
+2. Verify system tools: `which gs` → if missing, tell user to `brew install ghostscript`
+3. Run the onboarding questionnaire from `setup/questionnaire.md`
+4. Write answers to `setup/config.yaml` (this file is the "setup done" marker)
 
 ## Active Project
 
