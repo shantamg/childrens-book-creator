@@ -1,17 +1,26 @@
 # Available Tools
 
-## nb CLI (Nano Banana)
+## nano-banana CLI
 
-Image generation using Gemini Pro Image.
+AI image generation using Gemini models. Use for all new image generation.
 
-- **Location**: `~/bin/nb`
-- **Purpose**: Generate illustrations, upscale images
+- **Purpose**: Generate illustrations, character model sheets, covers
 - **Key flags**:
-  - `--prompt "..."` — Generation prompt
-  - `--ref path/to/reference.png` — Reference image (character sheet)
-  - `--res 1k|4k` — Output resolution
-  - `--ar 1:1|16:9|2:1` — Aspect ratio
-  - `--image path.png` — Input image (for upscaling/variation)
+  - `"prompt"` — First argument is the generation prompt
+  - `-r path/to/reference.png` — Reference image (character sheet), can use multiple times
+  - `-s 1K|2K|4K` — Output size (default 1K)
+  - `-a 1:1|16:9|2:3|3:4|4:5|4:3` — Aspect ratio (look up per format in `_config/formats.yaml`)
+  - `-o filename` — Output filename (without extension)
+  - `-m flash|pro` — Model selection (flash is default, pro is higher quality)
+  - `-t` — Transparent background (green screen removal)
+
+## Upscaling images
+
+To upscale an approved image to 4K, use nano-banana with the pro model and a preservation prompt:
+
+```bash
+nano-banana "Generate a higher-resolution, higher-quality version of this exact illustration. Preserve every detail, color, composition, and character appearance precisely. Do not change the scene, add text, or alter any element." -r approved.png -s 4K -m pro -o approved_4k
+```
 
 ## Python Scripts (in scripts/)
 

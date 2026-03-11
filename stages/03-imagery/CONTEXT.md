@@ -19,7 +19,7 @@ Generate, review, and approve page illustrations.
 2. Read `book.yaml` for art style and generation settings
 3. Gather approved model sheets for characters in the scene
 4. Build the generation prompt combining: art style + scene description + character refs + mood
-5. Use `nb` CLI to generate variations
+5. Use `nano-banana` CLI to generate the image
 
 ### nano-banana CLI usage
 
@@ -46,8 +46,11 @@ Always generate at 1K resolution first. Get user approval. Then upscale to 4K.
 ### Upscaling and conforming
 
 After approval:
-1. Upscale to 4K: save as `approved_4k.png`
-2. Conform to print resolution (2625x2625px at 300 DPI):
+1. Upscale to 4K with nano-banana using the pro model for best quality:
+   ```bash
+   nano-banana "Generate a higher-resolution, higher-quality version of this exact illustration. Preserve every detail, color, composition, and character appearance precisely. Do not change the scene, add text, or alter any element." -r pages/NNN-pageN/approved.png -s 4K -m pro -o approved_4k
+   ```
+2. Conform to print resolution (look up pixels from `_config/formats.yaml`):
    ```bash
    magick approved_4k.png -resize 2625x2625 -density 300 pages/NNN/print-ready/page.png
    ```
