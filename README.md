@@ -33,7 +33,7 @@ Each stage has a contract (`stages/NN-name/CONTEXT.md`) that defines the workflo
 
 ## Prerequisites
 
-### Required
+You need these installed before starting:
 
 | Tool | Version | Purpose |
 |------|---------|---------|
@@ -41,55 +41,26 @@ Each stage has a contract (`stages/NN-name/CONTEXT.md`) that defines the workflo
 | [Node.js](https://nodejs.org/) | 20+ LTS | Web layout tool |
 | [Python](https://python.org/) | 3.10+ | Print scripts (text rendering, PDF export) |
 | [Ghostscript](https://www.ghostscript.com/) | 10+ | RGB to CMYK PDF conversion |
+| [nano-banana](https://github.com/kingbootoshi/nano-banana-2-skill) | Latest | CLI for generating illustrations (uses Google Gemini) |
 
-### For Image Generation
+On macOS, the system dependencies can be installed with Homebrew:
 
-| Tool | Purpose |
-|------|---------|
-| [nano-banana](https://github.com/kingbootoshi/nano-banana-2-skill) | CLI for generating illustrations (uses Google Gemini) |
-| [Gemini API key](https://aistudio.google.com/apikey) | Required by nano-banana |
+```bash
+brew install ghostscript node python@3
+```
 
-### Optional
-
-| Tool | Purpose |
-|------|---------|
-| [ImageMagick](https://imagemagick.org/) | Manual image conforming/resizing |
+On Linux, use your distro's package manager. Windows has not been verified yet — Claude Code will attempt to figure out the right install steps if you're on an untested platform.
 
 ## Setup
-
-### 1. Install system dependencies (macOS)
-
-```bash
-brew install ghostscript imagemagick node python@3
-```
-
-### 2. Install Python packages
-
-```bash
-pip install -r scripts/requirements.txt
-playwright install chromium
-```
-
-### 3. Install web tool dependencies
-
-```bash
-cd web && npm install
-```
-
-### 4. Set up nano-banana (image generation)
-
-Follow the [nano-banana setup instructions](https://github.com/kingbootoshi/nano-banana-2-skill) or say "init nano-banana" in Claude Code.
-
-You'll need a [Gemini API key](https://aistudio.google.com/apikey).
-
-### 5. Open in Claude Code
 
 ```bash
 cd /path/to/this/repo
 claude
 ```
 
-On first run, Claude will ask a few setup questions (your name, preferred art style, etc.) and save the answers to `setup/config.yaml`.
+That's it. On first run, Claude Code will install project dependencies (npm packages, Python packages, Playwright) and walk you through a short onboarding questionnaire. Your answers are saved to `setup/config.yaml`.
+
+For image generation you'll also need a [Gemini API key](https://aistudio.google.com/apikey) — see the [nano-banana setup instructions](https://github.com/kingbootoshi/nano-banana-2-skill).
 
 ## Project Structure
 

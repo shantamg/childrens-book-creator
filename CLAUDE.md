@@ -12,7 +12,11 @@ If it does NOT exist, this is a first run. Do the following:
    - `cd web && npm install`
    - `pip install -r scripts/requirements.txt`
    - `playwright install chromium`
-2. Verify system tools: `which gs` → if missing, tell user to `brew install ghostscript`
+2. Verify system tools: check that `gs` (Ghostscript) is available.
+   - macOS: `brew install ghostscript`
+   - Linux: use the distro package manager (e.g. `apt install ghostscript`)
+   - Windows: not yet verified — try to find and suggest the appropriate install method
+   - If you can't determine how to install a missing dependency, tell the user what's needed and let them handle it.
 3. Run the onboarding questionnaire from `setup/questionnaire.md`
 4. Write answers to `setup/config.yaml` (this file is the "setup done" marker)
 
