@@ -21,17 +21,11 @@ Generate, review, and approve page illustrations.
 4. Build the generation prompt combining: art style + scene description + character refs + mood
 5. Use `nb` CLI to generate variations
 
-### nb CLI usage
+### nano-banana CLI usage
 
 ```bash
 # Generate at 1K first (faster iteration, cheaper)
-nb --prompt "[prompt]" --ref characters/eloy/approved-model-sheet.png --res 1k
-
-# Generate multiple variations
-nb --prompt "[prompt]" --ref [refs] --res 1k  # run 3 times for 3 variations
-
-# Upscale approved variation to 4K
-nb --prompt "[prompt]" --ref [refs] --image pages/NNN/approved.png --res 4k
+nano-banana "[prompt]" -r characters/eloy/approved-model-sheet.png -s 1K
 ```
 
 ### 1K-first workflow (critical)
@@ -44,15 +38,10 @@ Always generate at 1K resolution first. Get user approval. Then upscale to 4K.
 
 ### Approval flow
 
-1. Save variations to `pages/NNN-pageN/variations/`
-   - `page_NNN_v1.png`, `page_NNN_v2.png`, `page_NNN_v3.png`
-   - Save prompts: `page_NNN_v1_prompt.txt`
-2. Present variations to user (show file paths so they can view them)
-3. On approval, copy to `pages/NNN-pageN/approved.png`
-4. Write `pages/NNN-pageN/approval.json`:
-   ```json
-   { "approvedVariation": 2, "approvedFile": "page_NNN_v2.png", "timestamp": "..." }
-   ```
+1. Generate one image at a time, save to `pages/NNN-pageN/`
+2. Show the result to the user and ask how they like it
+3. If not right, iterate — the user can adjust the prompt or try again
+4. On approval, save as `pages/NNN-pageN/approved.png`
 
 ### Upscaling and conforming
 
@@ -75,14 +64,13 @@ magick spread.png -crop 50%x100% +repage pages/NNN/print-ready/page-%d.png
 
 | After | Present | Human decides |
 |-------|---------|---------------|
-| First page variations | 3 variations side by side | Which to approve, or regenerate |
-| Batch generation | Gallery of all pages | Which need regeneration |
+| Page image | Generated image | Approve, adjust prompt, or try again |
 
 ## Outputs
 
 | Artifact | Location | Format |
 |----------|----------|--------|
-| Variations | `pages/NNN-pageN/variations/` | PNG (1K) |
+| Iterations | `pages/NNN-pageN/` | PNG (1K) |
 | Approved image | `pages/NNN-pageN/approved.png` | PNG (1K) |
 | Upscaled | `pages/NNN-pageN/approved_4k.png` | PNG (4K) |
 | Print-ready | `pages/NNN-pageN/print-ready/page.png` | PNG (2625x2625 @ 300 DPI) |

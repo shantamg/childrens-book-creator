@@ -24,9 +24,11 @@ Design and generate the book cover (wrap-around for hardcover).
 ### Cover generation
 
 ```bash
-# Full wrap-around cover at correct dimensions
-nb --prompt "[cover prompt]" --ref [character-refs] --ar 19:10 --res 4k
+# Generate one cover at a time, iterate with user
+nano-banana "[cover prompt]" -r [character-refs] -a 19:10 -s 1K
 ```
+
+Generate one cover at a time at 1K. Show the result and ask the user how they like it. Iterate until approved, then upscale to 4K.
 
 Cover canvas: 19.026" x 10.0" for OnPress Square Hard Cover (8.5x8.5 trim)
 
@@ -52,7 +54,7 @@ Title and author text on the cover can be:
 | After | Present | Human decides |
 |-------|---------|---------------|
 | Cover concept | Description + reference images | Direction and composition |
-| Cover variations | 2-3 generated options | Which to approve or iterate |
+| Cover image | Generated image | Approve, adjust prompt, or try again |
 
 ## Outputs
 

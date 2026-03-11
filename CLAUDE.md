@@ -104,6 +104,7 @@ Use `nano-banana` CLI for generating page illustrations and character model shee
 - Reference character model sheets with `-r` for consistency
 - Use `-s 1K -a 1:1` for standard square pages matching 8.5x8.5" trim
 - Rename files before passing to nano-banana (it can't handle spaces in filenames via `-r`)
+- ALWAYS include in every image prompt: "Do not include any text, words, letters, or numbers in the image — text will be added later as an overlay."
 
 ## Conventions
 
