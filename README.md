@@ -33,23 +33,11 @@ Each stage has a contract (`stages/NN-name/CONTEXT.md`) that defines the workflo
 
 ## Prerequisites
 
-You need these installed before starting:
+All you need is [Claude Code](https://claude.ai/claude-code) and a few standard system tools: [Node.js](https://nodejs.org/) (20+), [Python](https://python.org/) (3.10+), and [Ghostscript](https://www.ghostscript.com/). For image generation, you'll need [nano-banana](https://github.com/kingbootoshi/nano-banana-2-skill) and a [Gemini API key](https://aistudio.google.com/apikey).
 
-| Tool | Version | Purpose |
-|------|---------|---------|
-| [Claude Code](https://claude.ai/claude-code) | Latest | The AI agent that runs the workspace |
-| [Node.js](https://nodejs.org/) | 20+ LTS | Web layout tool |
-| [Python](https://python.org/) | 3.10+ | Print scripts (text rendering, PDF export) |
-| [Ghostscript](https://www.ghostscript.com/) | 10+ | RGB to CMYK PDF conversion |
-| [nano-banana](https://github.com/kingbootoshi/nano-banana-2-skill) | Latest | CLI for generating illustrations (uses Google Gemini) |
+Claude Code will check for these on first run, install what it can, and tell you what's missing.
 
-On macOS, the system dependencies can be installed with Homebrew:
-
-```bash
-brew install ghostscript node python@3
-```
-
-On Linux, use your distro's package manager. Windows has not been verified yet — Claude Code will attempt to figure out the right install steps if you're on an untested platform.
+> **Note:** This has been tested on macOS. On other platforms, Claude Code will attempt to figure out the right install steps — Windows is not yet verified.
 
 ## Setup
 
@@ -58,9 +46,7 @@ cd /path/to/this/repo
 claude
 ```
 
-That's it. On first run, Claude Code will install project dependencies (npm packages, Python packages, Playwright) and walk you through a short onboarding questionnaire. Your answers are saved to `setup/config.yaml`.
-
-For image generation you'll also need a [Gemini API key](https://aistudio.google.com/apikey) — see the [nano-banana setup instructions](https://github.com/kingbootoshi/nano-banana-2-skill).
+On first run, Claude Code installs project dependencies (npm packages, Python packages, Playwright) and walks you through a short onboarding questionnaire. Your answers are saved to `setup/config.yaml`.
 
 ## Project Structure
 
