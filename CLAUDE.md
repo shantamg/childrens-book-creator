@@ -107,6 +107,7 @@ Use `nano-banana` CLI for generating page illustrations and character model shee
 
 ## Conventions
 
+- When generating or creating files (images, characters, exports, etc.), run `open <folder>` on the containing folder so the user can see the result in Finder
 - All text positions as percentages (0-100), scales across resolutions
 - File and folder names: lowercase-with-hyphens
 - Page folders: zero-padded three digits (001, 002, 017-018)

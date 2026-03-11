@@ -15,25 +15,25 @@ Create and manage characters: descriptions, reference images, and model sheets.
 ### Creating a character
 
 1. Gather from user: name, age, physical description, personality, role in story
-2. Create `characters/{name}/character.md` with full description
-3. If user provides a reference image, save to `characters/{name}/reference.png`
-4. Character can be created as a placeholder (description only, no model sheet)
+2. Let the user know they can drag reference images (photos, sketches, inspiration) directly into the terminal to base the character on
+3. Create `characters/{name}/character.md` with full description
+4. If user provides reference images, save them to `characters/{name}/` (e.g. `reference.png`)
+5. Character can be created as a placeholder (description only, no model sheet)
 
 ### Generating model sheets
 
 Model sheets provide consistent character reference for image generation.
 
 1. Read the character description from `character.md`
-2. Use `nb` CLI to generate model sheet (front view, 3/4 view, side view)
-3. Generate 3 variations: `model-sheet-v1.png`, `model-sheet-v2.png`, `model-sheet-v3.png`
-4. Present variations to user for approval
-5. Save approved version as `approved-model-sheet.png`
-6. Optionally generate individual view sheets for detailed reference
+2. Use `nano-banana` to generate one model sheet (front view, 3/4 view, side view)
+3. Show the result to the user and ask if they like it
+4. If not, iterate — the user can ask to try again with the same prompt or adjust the prompt
+5. Once approved, save as `approved-model-sheet.png`
 
-### nb CLI for model sheets
+### nano-banana CLI for model sheets
 
 ```bash
-nb --prompt "Character model sheet, [description], front view, 3/4 view, side view, white background, children's book illustration style, [art-style]" --ar 16:9 --res 4k
+nano-banana "Character model sheet, [description], front view, 3/4 view, side view, white background, children's book illustration style, [art-style]" -a 16:9 -s 1K
 ```
 
 ### Character file format
@@ -61,7 +61,7 @@ and an infectious smile. He wears a red t-shirt and blue jeans.
 | After | Present | Human decides |
 |-------|---------|---------------|
 | Character description | Full written description | Accuracy, missing details |
-| Model sheet variations | Side-by-side comparison | Which variation to approve |
+| Model sheet | Generated image | Approve, retry same prompt, or adjust prompt |
 
 ## Outputs
 
