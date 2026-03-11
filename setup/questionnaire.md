@@ -20,7 +20,7 @@ Ask each question one at a time using AskUserQuestion. Show the default value so
 - Default: "Warm, dreamy, magical"
 
 ### 4. Default font
-- Question: "Default font for story text? (Google Font name)"
+- Question: "Default font for story text? Browse options at https://fonts.google.com — you can change this anytime."
 - Default: "Overlock"
 
 ### 5. Default trim size
