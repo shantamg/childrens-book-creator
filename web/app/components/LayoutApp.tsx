@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { SpreadGallery } from "./SpreadGallery";
 import { PageEditor } from "./PageEditor";
-import { BookOpen } from "lucide-react";
+import { BookOpen, ChevronLeft } from "lucide-react";
 import type { BookYaml, LayoutYaml, PageInfo } from "@/app/lib/types";
 
 interface LayoutAppProps {
@@ -119,12 +119,21 @@ export function LayoutApp({ slug }: LayoutAppProps) {
     <div className="min-h-screen flex flex-col">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between shrink-0">
-        <div>
-          <h1 className="text-lg font-semibold text-gray-900">{book.title}</h1>
-          <p className="text-xs text-gray-500">
-            {book.author} &middot; {book.specs.trim.width}&times;{book.specs.trim.height}&quot;
-            &middot; {pages.length} pages
-          </p>
+        <div className="flex items-center gap-3">
+          <a
+            href="/"
+            className="text-gray-400 hover:text-gray-600 transition-colors"
+            title="All Projects"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </a>
+          <div>
+            <h1 className="text-lg font-semibold text-gray-900">{book.title}</h1>
+            <p className="text-xs text-gray-500">
+              {book.author} &middot; {book.specs.trim.width}&times;{book.specs.trim.height}&quot;
+              &middot; {pages.length} pages
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-3">
           {dirty && (
