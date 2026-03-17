@@ -3,7 +3,8 @@
 import { useState, useCallback, useEffect } from "react";
 import { SpreadGallery } from "./SpreadGallery";
 import { PageEditor } from "./PageEditor";
-import { BookOpen, ChevronLeft } from "lucide-react";
+import { CoverView } from "./CoverView";
+import { BookOpen, ChevronLeft, Image as ImageIcon } from "lucide-react";
 import type { BookYaml, LayoutYaml, PageInfo } from "@/app/lib/types";
 
 interface LayoutAppProps {
@@ -15,6 +16,7 @@ export function LayoutApp({ slug }: LayoutAppProps) {
   const [layout, setLayout] = useState<LayoutYaml>({ pages: {} });
   const [pages, setPages] = useState<PageInfo[]>([]);
   const [selectedPage, setSelectedPage] = useState<number | null>(null);
+  const [view, setView] = useState<"pages" | "cover">("pages");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [dirty, setDirty] = useState(false);
@@ -146,14 +148,25 @@ export function LayoutApp({ slug }: LayoutAppProps) {
               Saved {lastSaved.toLocaleTimeString()}
             </span>
           )}
-          {selectedPage !== null && (
+          {(selectedPage !== null || view === "cover") && (
             <button
-              onClick={() => setSelectedPage(null)}
+              onClick={() => { setSelectedPage(null); setView("pages"); }}
               className="text-xs text-gray-500 hover:text-gray-700 underline"
             >
               Back to Gallery
             </button>
           )}
+          <button
+            onClick={() => { setView("cover"); setSelectedPage(null); }}
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded transition-colors ${
+              view === "cover"
+                ? "bg-blue-100 text-blue-700"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            <ImageIcon className="w-3.5 h-3.5" />
+            Cover
+          </button>
           <a
             href={`/proof?project=${slug}`}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
@@ -166,7 +179,9 @@ export function LayoutApp({ slug }: LayoutAppProps) {
 
       {/* Content */}
       <main className="flex-1 p-6 overflow-auto">
-        {selectedPage === null ? (
+        {view === "cover" ? (
+          <CoverView slug={slug} />
+        ) : selectedPage === null ? (
           <SpreadGallery
             slug={slug}
             pages={pages}
