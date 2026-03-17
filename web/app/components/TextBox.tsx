@@ -14,6 +14,7 @@ interface TextBoxProps {
   index: number;
   isSelected: boolean;
   containerDimensions: ContainerDimensions;
+  isSpread?: boolean;
   onUpdate: (index: number, changes: Partial<TextOverlay>) => void;
   onSelect: (index: number) => void;
 }
@@ -23,6 +24,7 @@ export function TextBox({
   index,
   isSelected,
   containerDimensions,
+  isSpread,
   onUpdate,
   onSelect,
 }: TextBoxProps) {
@@ -34,7 +36,9 @@ export function TextBox({
     containerDimensions
   );
 
-  const scale = containerDimensions.width / REFERENCE_WIDTH;
+  // For spreads, text is designed for a single page width, so scale based on half the container
+  const effectiveWidth = isSpread ? containerDimensions.width / 2 : containerDimensions.width;
+  const scale = effectiveWidth / REFERENCE_WIDTH;
   const scaledFontSize = Math.round(overlay.fontSize * scale);
 
   // Background properties with defaults

@@ -22,15 +22,19 @@ function ThumbnailWithText({
   page,
   overlays,
   onClick,
+  isSpread,
 }: {
   slug: string;
   page: PageInfo;
   overlays: TextOverlay[];
   onClick?: () => void;
+  isSpread?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
-  const scaleFactor = containerWidth > 0 ? containerWidth / REFERENCE_WIDTH : 0;
+  // For spreads, text is designed for a single page width, so scale based on half the container
+  const effectiveWidth = isSpread ? containerWidth / 2 : containerWidth;
+  const scaleFactor = effectiveWidth > 0 ? effectiveWidth / REFERENCE_WIDTH : 0;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -53,7 +57,7 @@ function ThumbnailWithText({
       <img
         src={`${page.thumbnailUrl}&thumb=true`}
         alt={`Page ${page.pageNumber}`}
-        className="w-full aspect-square object-cover bg-gray-100"
+        className={`w-full ${isSpread ? "aspect-[2/1]" : "aspect-square"} object-cover bg-gray-100`}
         loading="lazy"
       />
       {overlays.map((overlay, i) => {
@@ -168,20 +172,34 @@ export function SpreadGallery({
     <div className="space-y-4 max-w-4xl mx-auto">
       {spreads.map((spread, index) => {
         if (spread.isFullSpread && spread.left) {
-          const overlays = layout.pages[spread.left.pageNumber] || [];
+          // Merge overlays from both pages of the spread
+          const leftOverlays = layout.pages[spread.left.pageNumber] || [];
+          const rightPage = spread.right;
+          const rightOverlays = rightPage
+            ? (layout.pages[rightPage.pageNumber] || []).map((o: TextOverlay) => ({
+                ...o,
+                // Shift right-page percentages to the right half of the spread
+                leftPercent: o.leftPercent / 2 + 50,
+                widthPercent: o.widthPercent / 2,
+              }))
+            : [];
+          // Scale left-page percentages to the left half
+          const scaledLeftOverlays = leftOverlays.map((o: TextOverlay) => ({
+            ...o,
+            leftPercent: o.leftPercent / 2,
+            widthPercent: o.widthPercent / 2,
+          }));
+          const allOverlays = [...scaledLeftOverlays, ...rightOverlays];
+
           return (
             <div key={index} className="rounded-lg overflow-hidden border border-gray-200 bg-white">
-              <div
+              <ThumbnailWithText
+                slug={slug}
+                page={{ ...spread.left, thumbnailUrl: spread.left.thumbnailUrl }}
+                overlays={allOverlays}
                 onClick={isSpecialPage(spread.left!) ? undefined : () => onSelectPage(spread.left!.pageNumber)}
-                className={`${isSpecialPage(spread.left!) ? "" : "cursor-pointer hover:opacity-90"} transition-opacity`}
-              >
-                <img
-                  src={`${spread.left.thumbnailUrl}&thumb=true`}
-                  alt={`Spread page ${spread.left.pageNumber}`}
-                  className="w-full aspect-[2/1] object-cover bg-gray-100"
-                  loading="lazy"
-                />
-              </div>
+                isSpread
+              />
               <div className="px-3 py-1.5 text-xs text-gray-500 border-t border-gray-100">
                 {getSpreadLabel(spread)}
               </div>

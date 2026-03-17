@@ -12,6 +12,7 @@ interface TextOverlayEditorProps {
   trimWidth: number;
   bleed: number;
   isRightPage: boolean;
+  isSpread?: boolean;
   overlays: TextOverlay[];
   selectedId: number | null;
   onUpdate: (index: number, changes: Partial<TextOverlay>) => void;
@@ -24,6 +25,7 @@ export function TextOverlayEditor({
   trimWidth,
   bleed,
   isRightPage,
+  isSpread,
   overlays,
   selectedId,
   onUpdate,
@@ -88,6 +90,7 @@ export function TextOverlayEditor({
             index={i}
             isSelected={selectedId === i}
             containerDimensions={dimensions}
+            isSpread={isSpread}
             onUpdate={onUpdate}
             onSelect={onSelect}
           />

@@ -25,16 +25,20 @@ function PageWithText({
   page,
   layout,
   className,
+  isSpread,
 }: {
   slug: string;
   page: PageInfo;
   layout: LayoutYaml;
   className?: string;
+  isSpread?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(0);
   const overlays = layout.pages[page.pageNumber] || [];
-  const scaleFactor = containerWidth > 0 ? containerWidth / REFERENCE_WIDTH : 0;
+  // For spreads, text is designed for a single page width, so scale based on half the container
+  const effectiveWidth = isSpread ? containerWidth / 2 : containerWidth;
+  const scaleFactor = effectiveWidth > 0 ? effectiveWidth / REFERENCE_WIDTH : 0;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -125,6 +129,7 @@ function SpreadRow({
             page={spread.left}
             layout={layout}
             className="h-full w-full"
+            isSpread
           />
         </div>
         <div className="mt-2 text-xs text-gray-400">

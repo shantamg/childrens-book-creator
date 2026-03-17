@@ -211,6 +211,7 @@ export function PageEditor({
           trimWidth={book.specs.trim.width}
           bleed={book.specs.bleed}
           isRightPage={isRightPage(selectedPage)}
+          isSpread={currentPageInfo?.type === "spread"}
           overlays={overlays}
           selectedId={selectedOverlayId}
           onUpdate={updateOverlay}
