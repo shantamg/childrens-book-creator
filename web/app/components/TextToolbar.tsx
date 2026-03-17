@@ -207,6 +207,95 @@ export function TextToolbar({
             </div>
           </div>
 
+          {/* Background */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="bgEnabled"
+                checked={selectedOverlay.bgEnabled ?? false}
+                onChange={(e) =>
+                  onUpdate(selectedIndex, { bgEnabled: e.target.checked })
+                }
+                className="rounded border-gray-300"
+              />
+              <label htmlFor="bgEnabled" className="text-xs text-gray-500">
+                Background
+              </label>
+            </div>
+
+            {(selectedOverlay.bgEnabled ?? false) && (
+              <div className="space-y-2 pl-1">
+                <div className="flex items-end gap-2">
+                  <div className="space-y-1">
+                    <label className="text-xs text-gray-500">Color</label>
+                    <input
+                      type="color"
+                      value={selectedOverlay.bgColor ?? "#ffffff"}
+                      onChange={(e) =>
+                        onUpdate(selectedIndex, { bgColor: e.target.value })
+                      }
+                      className="bg-gray-100 border border-gray-300 rounded h-8 w-12 cursor-pointer"
+                    />
+                  </div>
+                  <div className="space-y-1 flex-1">
+                    <label className="text-xs text-gray-500">Opacity</label>
+                    <input
+                      type="range"
+                      min={0}
+                      max={1}
+                      step={0.05}
+                      value={selectedOverlay.bgOpacity ?? 0.75}
+                      onChange={(e) =>
+                        onUpdate(selectedIndex, {
+                          bgOpacity: Number(e.target.value),
+                        })
+                      }
+                      className="w-full"
+                    />
+                    <div className="text-[10px] text-gray-400 text-right">
+                      {((selectedOverlay.bgOpacity ?? 0.75) * 100).toFixed(0)}%
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1">
+                    <label className="text-xs text-gray-500">Radius</label>
+                    <input
+                      type="number"
+                      min={0}
+                      max={50}
+                      step={1}
+                      value={selectedOverlay.bgRadius ?? 12}
+                      onChange={(e) =>
+                        onUpdate(selectedIndex, {
+                          bgRadius: Number(e.target.value),
+                        })
+                      }
+                      className="w-full bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded px-2 py-1"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs text-gray-500">Padding</label>
+                    <input
+                      type="number"
+                      min={0}
+                      max={50}
+                      step={1}
+                      value={selectedOverlay.bgPadding ?? 16}
+                      onChange={(e) =>
+                        onUpdate(selectedIndex, {
+                          bgPadding: Number(e.target.value),
+                        })
+                      }
+                      className="w-full bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded px-2 py-1"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Position display (read-only) */}
           <div className="grid grid-cols-4 gap-1.5">
             {[

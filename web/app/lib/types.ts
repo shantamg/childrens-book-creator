@@ -11,6 +11,12 @@ export interface TextOverlay {
   topPercent: number;
   widthPercent: number;
   heightPercent: number;
+  /** Optional background behind text */
+  bgEnabled?: boolean;
+  bgColor?: string;      // hex color, default "#ffffff"
+  bgOpacity?: number;    // 0-1, default 0.75
+  bgRadius?: number;     // border-radius in px at reference width, default 12
+  bgPadding?: number;    // padding in px at reference width, default 16
 }
 
 /** layout.yaml shape: pages keyed by page number, each is an array of overlays */

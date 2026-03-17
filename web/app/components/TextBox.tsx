@@ -34,9 +34,23 @@ export function TextBox({
     containerDimensions
   );
 
-  const scaledFontSize = Math.round(
-    overlay.fontSize * (containerDimensions.width / REFERENCE_WIDTH)
-  );
+  const scale = containerDimensions.width / REFERENCE_WIDTH;
+  const scaledFontSize = Math.round(overlay.fontSize * scale);
+
+  // Background properties with defaults
+  const bgEnabled = overlay.bgEnabled ?? false;
+  const bgColor = overlay.bgColor ?? "#ffffff";
+  const bgOpacity = overlay.bgOpacity ?? 0.75;
+  const bgRadius = Math.round((overlay.bgRadius ?? 12) * scale);
+  const bgPadding = Math.round((overlay.bgPadding ?? 16) * scale);
+
+  // Convert hex color to rgba
+  const hexToRgba = (hex: string, opacity: number) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  };
 
   return (
     <Rnd
@@ -98,12 +112,16 @@ export function TextBox({
           textAlign: overlay.align,
           width: "100%",
           height: "100%",
-          padding: "4px",
+          padding: bgEnabled ? `${bgPadding}px` : "4px",
           overflow: "hidden",
           wordWrap: "break-word",
           whiteSpace: "pre-wrap",
           pointerEvents: "none",
           userSelect: "none",
+          ...(bgEnabled && {
+            backgroundColor: hexToRgba(bgColor, bgOpacity),
+            borderRadius: `${bgRadius}px`,
+          }),
         }}
       >
         {overlay.content}
