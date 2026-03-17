@@ -71,6 +71,67 @@ Text must stay within safety margins:
 - 1.0" from gutter (binding side)
 - Use `scripts/draw-safe-zones.py` to generate preview images with guides
 
+### AI-assisted text placement
+
+Batch-place text across all pages with visual verification. Use when the user asks to "place text on all pages", "lay out the text", or similar.
+
+#### Step 1 — Calibrate (optional)
+
+Check if the user has already placed text on 1-2 pages using the web tool. If so, read those entries from `layout.yaml` to learn the style:
+- Font, fontSize, lineHeight, color
+- Background settings (bgEnabled, bgColor, bgOpacity, bgRadius, bgPadding)
+- Placement style (corners vs edges, single vs split text blocks)
+
+If no calibration pages exist, use defaults from `book.yaml` typography section and apply these background defaults:
+```yaml
+bgEnabled: true
+bgColor: '#ffffff'
+bgOpacity: 0.6
+bgRadius: 46
+bgPadding: 25
+```
+
+Ask the user if they'd like to place 1-2 pages first to set the style, or skip and use defaults.
+
+#### Step 2 — Batch place
+
+For each page that has story text in `story/page-NN.md` but no layout entry (or all pages if requested):
+
+1. **Read the page image** to understand composition — where are faces, characters, key visual elements
+2. **Read the story text** from `story/page-NN.md` — content, page type, mood
+3. **Determine page type** from frontmatter:
+   - `story` (single page) — 1:1 aspect, full image available
+   - `spread-start` — image spans two pages, text goes on the image side
+   - `spread-companion` — text-only page on a spread (no image, text flows freely)
+   - `title`, `blank` — may not need image-aware placement
+4. **Choose placement** following these rules:
+   - Stay inside safe zone (5%+ from outer edges, 12%+ from gutter/binding side)
+   - Avoid character faces and key visual elements
+   - On spreads: keep text away from the center seam (avoid 45-55% horizontal zone)
+   - Prefer corners/edges where the image has simpler backgrounds (sky, ground, walls, dark areas)
+   - For dark backgrounds, consider white or light text color
+   - Split long text into multiple blocks if it reads better or avoids covering important elements
+   - Match the calibration style consistently across all pages
+5. **Write the overlay(s)** to `layout.yaml`
+6. **Render preview**: `python3 scripts/render-text.py --project projects/{slug} --page N --preview`
+7. **Read the rendered image** from `pages/NNN/print-text-browser/page.png` and self-check:
+   - Is any text covering a face or important element?
+   - Is the text readable against the background?
+   - Is the text within safe zones?
+   - Does the background bubble look good (not too wide, not too narrow)?
+   - If any issue, adjust the layout.yaml entry and re-render
+8. **Move to next page**
+
+#### Step 3 — Review
+
+After all pages are placed:
+- Tell the user to review in the web tool or proof view
+- The user can adjust any pages that need tweaking using the web tool
+- Final render at print resolution (without `--preview` flag):
+  ```bash
+  python3 scripts/render-text.py --project projects/{slug}
+  ```
+
 ## Outputs
 
 | Artifact | Location | Format |

@@ -7,6 +7,13 @@ import { loadGoogleFont } from "@/app/lib/google-fonts";
 
 const REFERENCE_WIDTH = 1200;
 
+const hexToRgba = (hex: string, opacity: number) => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
+
 const isSpecialPage = (page: PageInfo) =>
   page.type === "title" || page.type === "about-author";
 
@@ -49,34 +56,45 @@ function ThumbnailWithText({
         className="w-full aspect-square object-cover bg-gray-100"
         loading="lazy"
       />
-      {overlays.map((overlay, i) => (
-        <div
-          key={i}
-          className="absolute overflow-hidden pointer-events-none"
-          style={{
-            left: `${overlay.leftPercent}%`,
-            top: `${overlay.topPercent}%`,
-            width: `${overlay.widthPercent}%`,
-            height: `${overlay.heightPercent}%`,
-          }}
-        >
+      {overlays.map((overlay, i) => {
+        const bgEnabled = overlay.bgEnabled ?? false;
+        const bgColor = overlay.bgColor ?? "#ffffff";
+        const bgOpacity = overlay.bgOpacity ?? 0.75;
+        const bgRadius = Math.round((overlay.bgRadius ?? 12) * scaleFactor);
+        const bgPadding = Math.round((overlay.bgPadding ?? 16) * scaleFactor);
+
+        return (
           <div
+            key={i}
+            className="absolute pointer-events-none"
             style={{
-              fontFamily: `'${overlay.font}', serif`,
-              fontSize: `${overlay.fontSize * scaleFactor}px`,
-              color: overlay.color,
-              textAlign: overlay.align as "left" | "center" | "right",
-              lineHeight: overlay.lineHeight,
-              letterSpacing: `${overlay.letterSpacing}em`,
-              padding: `${2 * scaleFactor}px`,
-              whiteSpace: "pre-wrap",
-              wordWrap: "break-word",
+              left: `${overlay.leftPercent}%`,
+              top: `${overlay.topPercent}%`,
+              width: `${overlay.widthPercent}%`,
             }}
           >
-            {overlay.content}
+            <div
+              style={{
+                fontFamily: `'${overlay.font}', serif`,
+                fontSize: `${overlay.fontSize * scaleFactor}px`,
+                color: overlay.color,
+                textAlign: overlay.align as "left" | "center" | "right",
+                lineHeight: overlay.lineHeight,
+                letterSpacing: `${overlay.letterSpacing}em`,
+                padding: bgEnabled ? `${bgPadding}px` : `${2 * scaleFactor}px`,
+                whiteSpace: "pre-wrap",
+                wordWrap: "break-word",
+                ...(bgEnabled && {
+                  backgroundColor: hexToRgba(bgColor, bgOpacity),
+                  borderRadius: `${bgRadius}px`,
+                }),
+              }}
+            >
+              {overlay.content}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

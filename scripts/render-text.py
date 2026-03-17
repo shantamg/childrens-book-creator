@@ -75,6 +75,25 @@ def build_html(image_path: str, text_overlays: list, fonts_dir: Path, preview_wi
         width = overlay.get("widthPercent", 80)
         height = overlay.get("heightPercent", 20)
 
+        # Background properties
+        bg_enabled = overlay.get("bgEnabled", False)
+        bg_color = overlay.get("bgColor", "#ffffff")
+        bg_opacity = overlay.get("bgOpacity", 0.75)
+        bg_radius = overlay.get("bgRadius", 12)
+        bg_padding = overlay.get("bgPadding", 16)
+
+        # Convert hex to rgba
+        if bg_enabled:
+            r = int(bg_color[1:3], 16)
+            g = int(bg_color[3:5], 16)
+            b = int(bg_color[5:7], 16)
+            bg_rgba = f"rgba({r}, {g}, {b}, {bg_opacity})"
+            bg_style = f"background-color: {bg_rgba}; border-radius: {bg_radius}px;"
+            padding_value = f"{bg_padding}px"
+        else:
+            bg_style = ""
+            padding_value = "10px"
+
         # Convert newlines to <br> and preserve spaces
         html_content = content.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
         html_content = html_content.replace("\n", "<br>")
@@ -87,17 +106,17 @@ def build_html(image_path: str, text_overlays: list, fonts_dir: Path, preview_wi
                 left: {left}%;
                 top: {top}%;
                 width: {width}%;
-                height: {height}%;
                 font-family: '{font}', serif;
                 font-size: {font_size}px;
                 line-height: {line_height};
                 letter-spacing: {letter_spacing}px;
                 color: {color};
                 text-align: {align};
-                padding: 10px;
+                padding: {padding_value};
                 white-space: pre-wrap;
                 overflow: visible;
                 box-sizing: border-box;
+                {bg_style}
             ">{html_content}</div>
         """)
 
@@ -180,14 +199,17 @@ def load_page_info_from_markdown(story_dir: Path) -> dict:
     """
     pages = {}
     for md_file in sorted(story_dir.glob("page-*.md")):
-        post = frontmatter.load(str(md_file))
-        meta = post.metadata
-        page_num = meta.get("page")
-        if page_num is not None:
-            pages[page_num] = {
-                "type": meta.get("type", "story"),
-                "folder": meta.get("folder", ""),
-            }
+        text = md_file.read_text()
+        if text.startswith("---"):
+            parts = text.split("---", 2)
+            if len(parts) >= 3:
+                meta = yaml.safe_load(parts[1]) or {}
+                page_num = meta.get("page")
+                if page_num is not None:
+                    pages[page_num] = {
+                        "type": meta.get("type", "story"),
+                        "folder": meta.get("folder", ""),
+                    }
     return pages
 
 
@@ -250,10 +272,55 @@ def load_pages_legacy(project_path: Path) -> list:
     return story["pages"]
 
 
+def find_page_image(pages_dir: Path, page_num, page_info: dict) -> Path | None:
+    """Find the best available image for a page, checking multiple locations."""
+    folder = page_info.get("folder", "")
+    num = int(page_num)
+
+    # Build candidate folder names
+    candidate_folders = []
+    if folder:
+        candidate_folders.append(folder)
+    # Standard naming: NNN-pageN
+    candidate_folders.append(f"{num:03d}-page{num}")
+
+    for folder_name in candidate_folders:
+        page_dir = pages_dir / folder_name
+
+        if not page_dir.exists():
+            continue
+
+        # Priority order: print-ready > approved > any png
+        print_ready = page_dir / "print-ready" / "page.png"
+        if print_ready.exists():
+            return print_ready
+
+        approved = page_dir / "approved.png"
+        if approved.exists():
+            return approved
+
+        # Any png in the folder (not in subdirs)
+        pngs = sorted(page_dir.glob("*.png"))
+        if pngs:
+            return pngs[0]
+
+        # Any jpeg
+        for ext in ["*.jpeg", "*.jpg"]:
+            jpegs = sorted(page_dir.glob(ext))
+            if jpegs:
+                return jpegs[0]
+
+    return None
+
+
 def main():
     parser = argparse.ArgumentParser(description="Render text overlays onto print-ready images.")
     parser.add_argument("--project", type=str, default=None,
                         help="Path to the project directory (e.g. projects/whats-not-in-here)")
+    parser.add_argument("--page", type=int, default=None,
+                        help="Render only this page number (for quick preview)")
+    parser.add_argument("--preview", action="store_true",
+                        help="Render at preview resolution (1200px) instead of print resolution")
     args = parser.parse_args()
 
     # Resolve project path
@@ -270,7 +337,7 @@ def main():
     fonts_dir = project_path / "fonts"
 
     preview_width = 1200
-    print_width = 2625  # 8.75" x 300 DPI
+    print_width = preview_width if args.preview else 2625  # 8.75" x 300 DPI
 
     # Load page data: prefer ICM format, fall back to legacy
     layout_path = project_path / "layout.yaml"
@@ -286,13 +353,19 @@ def main():
         print(f"ERROR: No layout.yaml or story.json found in {project_path}")
         sys.exit(1)
 
+    # Filter to single page if --page specified
+    if args.page is not None:
+        pages = [p for p in pages if int(p["pageNumber"]) == args.page]
+        if not pages:
+            print(f"ERROR: Page {args.page} not found in layout")
+            sys.exit(1)
+
     with sync_playwright() as p:
         browser = p.chromium.launch()
 
         for page_spec in pages:
             page_num = page_spec["pageNumber"]
             page_type = page_spec.get("type", "story")
-            folder = page_spec.get("folder", "")
             text_data = page_spec.get("text")
 
             if not text_data:
@@ -308,17 +381,19 @@ def main():
                 print(f"  Page {page_num}: unexpected text format, skipping")
                 continue
 
-            # Find input image
-            page_dir = pages_dir / folder
-            input_image = page_dir / "print-ready" / "page.png"
+            # Find input image (searches multiple locations)
+            input_image = find_page_image(pages_dir, page_num, page_spec)
 
-            if not input_image.exists():
-                # Check for spread left/right
+            if not input_image:
                 if page_type in ("spread-start", "spread-companion"):
-                    print(f"  Page {page_num}: {page_type} (no text), skipping")
+                    print(f"  Page {page_num}: {page_type}, no image found, skipping")
                     continue
-                print(f"  Page {page_num}: no print-ready image found, skipping")
+                print(f"  Page {page_num}: no image found, skipping")
                 continue
+
+            page_dir = input_image.parent
+            if page_dir.name == "print-ready":
+                page_dir = page_dir.parent
 
             output_image = page_dir / "print-text-browser" / "page.png"
 

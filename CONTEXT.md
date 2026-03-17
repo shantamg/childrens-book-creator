@@ -14,6 +14,7 @@ The workflow is conversational. You talk through what you want, and the agent re
 | Create or refine characters, model sheets | `stages/02-characters/CONTEXT.md` | Character names from story |
 | Generate or regenerate page images | `stages/03-imagery/CONTEXT.md` | Character sheets + scene descriptions |
 | Position text on pages using the web tool | `stages/04-text-layout/CONTEXT.md` | Images + story text |
+| Place text on all pages (AI-assisted batch) | `stages/04-text-layout/CONTEXT.md` → AI placement | Images + story text |
 | Design or generate the cover | `stages/05-cover/CONTEXT.md` | Art style established |
 | Export print-ready PDFs | `stages/06-export/CONTEXT.md` | Text-rendered pages |
 
